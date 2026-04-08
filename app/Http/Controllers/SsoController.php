@@ -312,6 +312,15 @@ class SsoController extends Controller
      */
     private function resolveRolesFromSsoProfile(array $profile): array
     {
+        $rolesFromSso = $this->extractSsoRoleNames($profile);
+        $ssoRoleMapping = config('sso.sso_role_mapping', []);
+
+        foreach ($rolesFromSso as $ssoRole) {
+            if (isset($ssoRoleMapping[$ssoRole]) && is_array($ssoRoleMapping[$ssoRole]) && $ssoRoleMapping[$ssoRole] !== []) {
+                return array_values(array_unique($ssoRoleMapping[$ssoRole]));
+            }
+        }
+
         $userType = Str::lower((string) data_get($profile, 'user_type', ''));
         $employeeType = Str::lower((string) data_get($profile, 'employee_type', ''));
 
@@ -330,5 +339,37 @@ class SsoController extends Controller
         $fallback = config('sso.fallback_roles', ['mahasiswa']);
 
         return is_array($fallback) ? array_values(array_unique($fallback)) : ['mahasiswa'];
+    }
+
+    /**
+     * @param  array<string, mixed>  $profile
+     * @return array<int, string>
+     */
+    private function extractSsoRoleNames(array $profile): array
+    {
+        $rawRoles = [];
+
+        foreach (['role', 'roles', 'user_role', 'user_roles'] as $key) {
+            $value = data_get($profile, $key);
+
+            if (is_string($value) && trim($value) !== '') {
+                $rawRoles[] = $value;
+            }
+
+            if (is_array($value)) {
+                foreach ($value as $nestedRole) {
+                    if (is_string($nestedRole) && trim($nestedRole) !== '') {
+                        $rawRoles[] = $nestedRole;
+                    }
+                }
+            }
+        }
+
+        $normalized = array_map(
+            fn (string $role): string => Str::of($role)->lower()->squish()->toString(),
+            $rawRoles
+        );
+
+        return array_values(array_unique(array_filter($normalized)));
     }
 }

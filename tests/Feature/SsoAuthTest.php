@@ -159,4 +159,37 @@ class SsoAuthTest extends TestCase
         $this->assertTrue($existing->hasRole('koordinator_ta'));
         $this->assertAuthenticatedAs($existing);
     }
+
+    public function test_callback_maps_super_admin_sso_role_to_admin_prodi(): void
+    {
+        Http::fake([
+            'https://sso.poltera.test/oauth/token' => Http::response([
+                'access_token' => 'access-admin',
+                'token_type' => 'Bearer',
+                'expires_in' => 3600,
+                'refresh_token' => 'refresh-admin',
+            ], 200),
+            'https://sso.poltera.test/oauth/userinfo' => Http::response([
+                'sub' => 'admin-001',
+                'name' => 'Super Admin User',
+                'email' => 'superadmin@example.com',
+                'user_type' => 'employee',
+                'employee_type' => 'staff',
+                'roles' => ['Super Admin'],
+            ], 200),
+        ]);
+
+        $this->withSession(['sso.oauth_state' => 'state-admin']);
+
+        $response = $this->get(route('sso.callback', [
+            'code' => 'code-admin',
+            'state' => 'state-admin',
+        ]));
+
+        $response->assertRedirect(route('dashboard'));
+
+        $user = User::query()->where('sso_sub', 'admin-001')->first();
+        $this->assertNotNull($user);
+        $this->assertTrue($user->hasRole('admin_prodi'));
+    }
 }
