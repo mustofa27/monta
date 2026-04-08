@@ -57,4 +57,20 @@ class RoleAccessTest extends TestCase
         $this->assertSame(1, $user->roles()->count());
         $this->assertTrue(Role::query()->where('slug', 'koordinator_ta')->exists());
     }
+
+    public function test_dashboard_allows_super_admin_from_sso_profile_mapping(): void
+    {
+        $user = User::factory()->create([
+            'sso_user_type' => 'Super Admin',
+            'sso_profile' => [
+                'roles' => ['Super Admin'],
+            ],
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->get(route('dashboard'));
+
+        $response->assertOk();
+    }
 }

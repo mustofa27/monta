@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'name',
@@ -34,18 +35,87 @@ class User extends Authenticatable
 
     public function hasRole(string $role): bool
     {
-        return $this->roles()->where('slug', $role)->exists();
+        if ($this->roles()->where('slug', $role)->exists()) {
+            return true;
+        }
+
+        return in_array($role, $this->resolvedSsoRoleSlugs(), true);
     }
 
     public function hasAnyRole(array $roles): bool
     {
-        return $this->roles()->whereIn('slug', $roles)->exists();
+        if ($this->roles()->whereIn('slug', $roles)->exists()) {
+            return true;
+        }
+
+        return array_intersect($roles, $this->resolvedSsoRoleSlugs()) !== [];
     }
 
     public function syncRolesBySlug(array $roles): void
     {
-        $roleIds = Role::query()->whereIn('slug', $roles)->pluck('id')->all();
+        $normalizedRoles = array_values(array_unique(array_map(
+            fn (string $role): string => Str::of($role)->lower()->snake()->toString(),
+            $roles
+        )));
+
+        foreach ($normalizedRoles as $slug) {
+            Role::query()->firstOrCreate(
+                ['slug' => $slug],
+                ['name' => (string) Str::of($slug)->replace('_', ' ')->title()]
+            );
+        }
+
+        $roleIds = Role::query()->whereIn('slug', $normalizedRoles)->pluck('id')->all();
         $this->roles()->sync($roleIds);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function resolvedSsoRoleSlugs(): array
+    {
+        $profile = is_array($this->sso_profile) ? $this->sso_profile : [];
+        $rawRoles = [];
+
+        foreach (['role', 'roles', 'user_role', 'user_roles', 'role_name'] as $key) {
+            $value = data_get($profile, $key);
+
+            if (is_string($value) && trim($value) !== '') {
+                $rawRoles[] = Str::of($value)->lower()->squish()->toString();
+            }
+
+            if (is_array($value)) {
+                foreach ($value as $nestedRole) {
+                    if (is_string($nestedRole) && trim($nestedRole) !== '') {
+                        $rawRoles[] = Str::of($nestedRole)->lower()->squish()->toString();
+                    }
+                }
+            }
+        }
+
+        $userType = Str::of((string) $this->sso_user_type)->lower()->squish()->toString();
+        if ($userType !== '') {
+            $rawRoles[] = $userType;
+        }
+
+        $roleMapping = config('sso.sso_role_mapping', []);
+        $resolved = [];
+
+        foreach (array_unique($rawRoles) as $rawRole) {
+            if (! isset($roleMapping[$rawRole]) || ! is_array($roleMapping[$rawRole])) {
+                continue;
+            }
+
+            foreach ($roleMapping[$rawRole] as $mappedRole) {
+                if (! is_string($mappedRole) || trim($mappedRole) === '') {
+                    continue;
+                }
+
+                $resolved[] = Str::of($mappedRole)->lower()->snake()->toString();
+            }
+        }
+
+        return array_values(array_unique($resolved));
     }
 
     /**
