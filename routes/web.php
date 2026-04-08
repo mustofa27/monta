@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\TaProjectController;
 use App\Http\Controllers\TaSupervisionController;
@@ -53,4 +54,16 @@ Route::middleware(['auth', 'role:mahasiswa,dosen_pembimbing,koordinator_ta,admin
     Route::post('/ta-supervisions/{supervision}/review', [TaSupervisionController::class, 'review'])
         ->middleware('role:dosen_pembimbing,koordinator_ta,admin_prodi')
         ->name('ta-supervisions.review');
+});
+
+// ── Admin routes ──────────────────────────────────────────────────────────────
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin_prodi'])->group(function () {
+    Route::get('/',                               [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users',                          [AdminController::class, 'users'])->name('users');
+    Route::put('/users/{user}/roles',             [AdminController::class, 'updateUserRoles'])->name('users.roles');
+    Route::get('/templates',                      [AdminController::class, 'templates'])->name('templates');
+    Route::post('/templates',                     [AdminController::class, 'storeTemplate'])->name('templates.store');
+    Route::put('/templates/{id}',                 [AdminController::class, 'updateTemplate'])->name('templates.update');
+    Route::delete('/templates/{id}',              [AdminController::class, 'destroyTemplate'])->name('templates.destroy');
+    Route::get('/audit-log',                      [AdminController::class, 'auditLog'])->name('audit-log');
 });

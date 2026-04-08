@@ -623,3 +623,358 @@
         align-items: stretch;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SPRINT 3 — ADMIN STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Admin top bar */
+.admin-topbar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 0;
+    border-radius: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+.admin-nav {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.admin-nav-link {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+}
+
+.admin-nav-link:hover {
+    background: rgba(255,255,255,0.08);
+    color: #f1f5f9;
+}
+
+.admin-nav-link--active {
+    background: rgba(99,102,241,0.25);
+    color: #818cf8;
+    font-weight: 600;
+}
+
+/* Admin main wrapper */
+.admin-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.admin-page-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* KPI grid */
+.admin-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.admin-kpi-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    text-align: center;
+}
+
+.admin-kpi-card--success { border-top: 3px solid #22c55e; }
+.admin-kpi-card--warning { border-top: 3px solid #f59e0b; }
+.admin-kpi-card--draft   { border-top: 3px solid #94a3b8; }
+
+.admin-kpi-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1;
+}
+
+.admin-kpi-label {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Two-column layout for dashboard panels */
+.admin-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+/* Generic admin table */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    border-bottom: 2px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.admin-table td {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+
+.admin-table--wide { font-size: 0.82rem; }
+
+/* Badges */
+.admin-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.admin-badge--secondary {
+    background: #f0fdf4;
+    color: #166534;
+}
+
+/* Sub text */
+.admin-sub-text {
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+/* Alert */
+.admin-alert {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.admin-alert--success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+/* Search form */
+.admin-search-form,
+.admin-filter-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.admin-filter-form .ta-field { min-width: 160px; }
+
+.admin-search-input { flex: 1; min-width: 200px; }
+
+/* Inline delete form */
+.admin-inline-delete { display: inline; }
+
+/* Action cell */
+.admin-action-cell {
+    white-space: nowrap;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+/* App btn danger variant */
+.app-btn--danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+}
+
+.app-btn--danger:hover { background: #fca5a5; }
+
+/* Empty states */
+.admin-empty {
+    text-align: center;
+    color: #94a3b8;
+    padding: 1.5rem;
+    font-style: italic;
+}
+
+.admin-empty-inline { color: #94a3b8; font-style: italic; }
+
+/* Nowrap cell */
+.admin-nowrap { white-space: nowrap; }
+
+/* Log list on admin dashboard */
+.admin-log-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.admin-log-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.85rem;
+}
+
+.admin-log-item:last-child { border-bottom: none; }
+
+.admin-log-event {
+    font-family: monospace;
+    font-size: 0.78rem;
+    background: #f1f5f9;
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    color: #334155;
+}
+
+.admin-log-actor { font-weight: 600; color: #1e293b; }
+
+.admin-log-time {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+/* JSON details / pre in audit log */
+.admin-json-details summary {
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: #6366f1;
+    user-select: none;
+}
+
+.admin-json-pre {
+    font-size: 0.72rem;
+    background: #0f172a;
+    color: #94a3b8;
+    border-radius: 6px;
+    padding: 0.5rem;
+    max-height: 180px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin-top: 0.25rem;
+}
+
+/* Role override modal */
+.admin-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15,23,42,0.55);
+}
+
+.admin-modal-box {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 1rem;
+}
+
+.admin-modal-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 1rem;
+}
+
+.admin-role-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.admin-role-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.admin-role-checkbox { accent-color: #6366f1; width: 16px; height: 16px; }
+
+.admin-role-check-label { font-size: 0.88rem; color: #334155; }
+.admin-role-check-label code { color: #6366f1; font-size: 0.78rem; }
+
+.admin-modal-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+/* ta-field action (align button at bottom) */
+.ta-field--action {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Responsive admin */
+@media (max-width: 1024px) {
+    .admin-kpi-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .admin-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .admin-two-col  { grid-template-columns: 1fr; }
+    .admin-filter-form .ta-field { min-width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .admin-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .admin-topbar   { gap: 0.75rem; padding: 0.5rem 0.75rem; }
+}
+

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\TaProject;
 use App\Observers\TaProjectObserver;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         TaProject::observe(TaProjectObserver::class);
+        Paginator::useBootstrapFive();
     }
 }

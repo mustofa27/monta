@@ -18,6 +18,9 @@
                     <p>Ringkasan progres, review topik, dan log bimbingan dalam satu ruang kerja.</p>
                 </div>
                 <div class="app-top-actions">
+                    @if(auth()->user()->hasRole('admin_prodi'))
+                        <a href="{{ route('admin.dashboard') }}" class="app-btn app-btn-secondary">Panel Admin</a>
+                    @endif
                     <form method="POST" action="{{ route('sso.refresh-token') }}">
                         @csrf
                         <button class="app-btn app-btn-secondary" type="submit">Refresh Token</button>

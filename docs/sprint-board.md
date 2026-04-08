@@ -20,11 +20,17 @@
 - UI responsive on mobile and desktop
 - Documentation updated
 
+## Status Legend
+- Status: Done
+- Status: In Progress
+- Status: Not Started
+
 ## Sprint 1 - Identity, Roles, and TA Core Data
 Goal: Stabilize access control and establish TA domain schema.
 Target: 28 SP
 
 ### S1-01 Role and Permission Matrix
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 3 SP
@@ -36,6 +42,7 @@ Target: 28 SP
 - Dependencies: None
 
 ### S1-02 Sync Role Mapping from SSO Attributes
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 5 SP
@@ -47,6 +54,7 @@ Target: 28 SP
 - Dependencies: S1-01
 
 ### S1-03 TA Domain Schema Migration
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 8 SP
@@ -58,6 +66,7 @@ Target: 28 SP
 - Dependencies: None
 
 ### S1-04 Seed Master Data for Lifecycle
+- Status: Done
 - Type: Task
 - Priority: P1
 - Estimate: 3 SP
@@ -68,6 +77,7 @@ Target: 28 SP
 - Dependencies: S1-03
 
 ### S1-05 Audit Trail Foundation
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 5 SP
@@ -78,6 +88,7 @@ Target: 28 SP
 - Dependencies: S1-03
 
 ### S1-06 Baseline Feature Tests
+- Status: Done
 - Type: Task
 - Priority: P0
 - Estimate: 4 SP
@@ -92,6 +103,7 @@ Goal: Deliver end-to-end TA progress workflow for students and supervisors.
 Target: 30 SP
 
 ### S2-01 Topic Submission Module
+- Status: In Progress
 - Type: Story
 - Priority: P0
 - Estimate: 8 SP
@@ -103,6 +115,7 @@ Target: 30 SP
 - Dependencies: S1-03
 
 ### S2-02 Topic Review and Decision Flow
+- Status: In Progress
 - Type: Story
 - Priority: P0
 - Estimate: 8 SP
@@ -114,6 +127,7 @@ Target: 30 SP
 - Dependencies: S2-01, S1-05
 
 ### S2-03 Supervision Log Module
+- Status: In Progress
 - Type: Story
 - Priority: P0
 - Estimate: 5 SP
@@ -124,6 +138,7 @@ Target: 30 SP
 - Dependencies: S1-03
 
 ### S2-04 Milestone Progress Engine
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 5 SP
@@ -134,6 +149,7 @@ Target: 30 SP
 - Dependencies: S1-03
 
 ### S2-05 Student Dashboard v1
+- Status: Done
 - Type: Story
 - Priority: P1
 - Estimate: 4 SP
@@ -143,11 +159,85 @@ Target: 30 SP
   - Mobile responsive layout
 - Dependencies: S2-01, S2-03, S2-04
 
-## Sprint 3 - Scheduling, Program Dashboard, Notifications
+## Sprint 3 - Admin Feature Implementation
+Goal: Deliver administrator controls for user governance, role overrides, master data, and operational visibility.
+Target: 28 SP
+
+### S3-01 User Management Panel
+- Status: Done
+- Type: Story
+- Priority: P0
+- Estimate: 7 SP
+- Description: Build admin page to list, search, and inspect users synchronized from SSO.
+- Acceptance Criteria:
+  - Admin can search by name, email, SSO subject, and user type
+  - Admin can view local roles and SSO profile snapshot
+  - Access is limited to admin_prodi role
+- Dependencies: S1-01, S1-02
+
+### S3-02 Manual Role Override Management
+- Status: Done
+- Type: Story
+- Priority: P0
+- Estimate: 6 SP
+- Description: Allow admin to override local application roles independently from SSO-derived defaults.
+- Acceptance Criteria:
+  - Admin can assign and revoke local roles
+  - Override changes are audited
+  - Override survives next login unless explicitly reset to SSO mapping
+- Dependencies: S3-01, S1-05
+
+### S3-03 Semester and Milestone Template Admin
+- Status: Done
+- Type: Story
+- Priority: P0
+- Estimate: 5 SP
+- Description: Admin can manage semester activation and milestone templates without direct database edits.
+- Acceptance Criteria:
+  - Admin can create, edit, and activate semester milestone templates
+  - Changes affect newly created TA projects only
+  - Validation prevents duplicate milestone codes per semester
+- Dependencies: S1-04
+
+### S3-04 Operational Audit Viewer
+- Status: Done
+- Type: Story
+- Priority: P1
+- Estimate: 4 SP
+- Description: Build admin audit page for auth, status changes, role overrides, and review actions.
+- Acceptance Criteria:
+  - Audit log list is filterable by event, actor, and date
+  - Sensitive actions are visible in chronological order
+- Dependencies: S1-05
+
+### S3-05 Admin Dashboard v1
+- Status: Done
+- Type: Story
+- Priority: P1
+- Estimate: 4 SP
+- Description: Provide admin summary cards for users, active TA records, overdue supervision, and pending reviews.
+- Acceptance Criteria:
+  - Dashboard shows aggregate counts from live data
+  - Admin-only access is enforced
+- Dependencies: S3-01, S2-04, S2-05
+
+### S3-06 Admin Feature Tests
+- Status: Done
+- Type: Task
+- Priority: P0
+- Estimate: 2 SP
+- Description: Add feature tests for admin-only access, role override, and audit visibility.
+- Acceptance Criteria:
+  - Tests verify unauthorized users receive 403
+  - Tests cover successful role override and audit record creation
+- Dependencies: S3-02, S3-04
+
+## Sprint 4 - Scheduling, Program Dashboard, Notifications
 Goal: Enable coordinator control with proactive monitoring.
 Target: 29 SP
 
-### S3-01 Seminar Proposal Scheduling
+### S4-01 Seminar Proposal Scheduling
+- Status: Not Started
 - Type: Story
 - Priority: P0
 - Estimate: 6 SP
@@ -157,7 +247,8 @@ Target: 29 SP
   - Schedule conflicts are blocked
 - Dependencies: S2-02, S2-04
 
-### S3-02 Final Defense Scheduling
+### S4-02 Final Defense Scheduling
+- Status: Not Started
 - Type: Story
 - Priority: P0
 - Estimate: 6 SP
@@ -165,9 +256,10 @@ Target: 29 SP
 - Acceptance Criteria:
   - Eligibility checks are enforced
   - Schedule and assigned panel are stored
-- Dependencies: S3-01
+- Dependencies: S4-01
 
-### S3-03 Program Monitoring Dashboard
+### S4-03 Program Monitoring Dashboard
+- Status: Not Started
 - Type: Story
 - Priority: P0
 - Estimate: 7 SP
@@ -177,7 +269,8 @@ Target: 29 SP
   - Filter combinations perform under acceptable response time
 - Dependencies: S2-04
 
-### S3-04 Notification Rules Engine
+### S4-04 Notification Rules Engine
+- Status: Not Started
 - Type: Story
 - Priority: P0
 - Estimate: 7 SP
@@ -188,7 +281,8 @@ Target: 29 SP
   - Notification history logged
 - Dependencies: S2-03, S2-04
 
-### S3-05 Queue + Scheduler Integration
+### S4-05 Queue + Scheduler Integration
+- Status: Not Started
 - Type: Task
 - Priority: P1
 - Estimate: 3 SP
@@ -196,13 +290,14 @@ Target: 29 SP
 - Acceptance Criteria:
   - Scheduler task registered
   - Queue worker processes notification jobs reliably
-- Dependencies: S3-04
+- Dependencies: S4-04
 
-## Sprint 4 - Hardening, Reporting, Release
+## Sprint 5 - Hardening, Reporting, Release
 Goal: Production readiness and governance reporting.
 Target: 27 SP
 
-### S4-01 Reporting Export (PDF/Excel)
+### S5-01 Reporting Export (PDF/Excel)
+- Status: Not Started
 - Type: Story
 - Priority: P1
 - Estimate: 5 SP
@@ -210,9 +305,10 @@ Target: 27 SP
 - Acceptance Criteria:
   - Exports support selected filters
   - File format is consistent and readable
-- Dependencies: S3-03
+- Dependencies: S4-03
 
-### S4-02 Document Access and Security Hardening
+### S5-02 Document Access and Security Hardening
+- Status: Not Started
 - Type: Story
 - Priority: P0
 - Estimate: 5 SP
@@ -222,7 +318,8 @@ Target: 27 SP
   - Security tests cover common bypass attempts
 - Dependencies: S2-01
 
-### S4-03 Performance Optimization
+### S5-03 Performance Optimization
+- Status: Not Started
 - Type: Task
 - Priority: P1
 - Estimate: 5 SP
@@ -230,9 +327,10 @@ Target: 27 SP
 - Acceptance Criteria:
   - Dashboard endpoints meet target response budget
   - No data staleness beyond accepted window
-- Dependencies: S3-03
+- Dependencies: S4-03
 
-### S4-04 UAT and Bug Bash
+### S5-04 UAT and Bug Bash
+- Status: Not Started
 - Type: Task
 - Priority: P0
 - Estimate: 5 SP
@@ -240,9 +338,10 @@ Target: 27 SP
 - Acceptance Criteria:
   - UAT issues triaged and resolved or accepted
   - UAT sign-off captured
-- Dependencies: Sprint 1-3 completion
+- Dependencies: Sprint 1-4 completion
 
-### S4-05 Deployment and Runbook
+### S5-05 Deployment and Runbook
+- Status: Not Started
 - Type: Task
 - Priority: P0
 - Estimate: 3 SP
@@ -250,9 +349,10 @@ Target: 27 SP
 - Acceptance Criteria:
   - Documented release steps verified on staging
   - Rollback procedure tested
-- Dependencies: S4-03
+- Dependencies: S5-03
 
-### S4-06 Observability and Operational Alerts
+### S5-06 Observability and Operational Alerts
+- Status: Not Started
 - Type: Task
 - Priority: P1
 - Estimate: 4 SP
@@ -260,7 +360,7 @@ Target: 27 SP
 - Acceptance Criteria:
   - Alerting channel configured
   - Key failure scenarios produce alerts
-- Dependencies: S3-05
+- Dependencies: S4-05
 
 ## Cross-Sprint Technical Standards
 - Keep CSS in external stylesheets (no inline CSS in Blade views)
@@ -269,12 +369,13 @@ Target: 27 SP
 - Log critical events: auth failures, approvals, status transitions, notification dispatch, and signature verification failures
 
 ## Risk Register
-- SSO role attributes may not cover all local role decisions: mitigation -> manual override admin screen in Sprint 2
+- SSO role attributes may not cover all local role decisions: mitigation -> manual override admin screen in Sprint 3
 - Schedule conflict complexity can delay planning module: mitigation -> enforce basic conflict checks first, advanced constraints later
 - Notification overload risk: mitigation -> throttle and digest options
 
 ## Suggested Milestones
 - Milestone A (end Sprint 1): secure access + TA schema complete
 - Milestone B (end Sprint 2): student-supervisor core workflow live
-- Milestone C (end Sprint 3): coordinator dashboard + notifications live
-- Milestone D (end Sprint 4): production release ready
+- Milestone C (end Sprint 3): admin governance and override controls live
+- Milestone D (end Sprint 4): coordinator dashboard + notifications live
+- Milestone E (end Sprint 5): production release ready
