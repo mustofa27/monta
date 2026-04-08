@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TaDocument;
 use App\Models\TaProject;
 use App\Models\TaSupervision;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TaSupervisionController extends Controller
 {
@@ -19,9 +21,10 @@ class TaSupervisionController extends Controller
         $validated = $request->validate([
             'meeting_date' => ['required', 'date'],
             'summary' => ['required', 'string'],
+            'evidence_file' => ['required', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png', 'max:10240'],
         ]);
 
-        TaSupervision::query()->create([
+        $supervision = TaSupervision::query()->create([
             'ta_project_id' => $project->id,
             'student_user_id' => $user->id,
             'supervisor_user_id' => $project->supervisor_user_id,
@@ -29,6 +32,29 @@ class TaSupervisionController extends Controller
             'summary' => $validated['summary'],
             'status' => 'submitted',
         ]);
+
+        $file = $request->file('evidence_file');
+        if ($file) {
+            $storedPath = $file->storeAs(
+                'ta-documents/supervision/'.$project->id,
+                Str::uuid()->toString().'-'.$file->getClientOriginalName(),
+                'local'
+            );
+
+            $document = TaDocument::query()->create([
+                'ta_project_id' => $project->id,
+                'uploaded_by_user_id' => $user->id,
+                'document_type' => 'supervision_evidence',
+                'original_name' => $file->getClientOriginalName(),
+                'stored_path' => $storedPath,
+                'size_bytes' => (int) $file->getSize(),
+                'status' => 'uploaded',
+            ]);
+
+            $supervision->update([
+                'ta_document_id' => $document->id,
+            ]);
+        }
 
         $project->milestones()->where('code', 'SUPERVISION_LOG')->update([
             'status' => 'in_progress',

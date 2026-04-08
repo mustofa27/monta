@@ -287,8 +287,15 @@ class SsoController extends Controller
         $user = $request->user();
         $progressService = app(TaProgressService::class);
 
-        $studentProject = $user?->taProjectsAsStudent()->with(['milestones', 'supervisions', 'reviews', 'supervisor'])->latest()->first();
-        $supervisorProjects = $user?->taProjectsAsSupervisor()->with(['student', 'milestones', 'supervisions'])->latest()->get() ?? collect();
+        $studentProject = $user?->taProjectsAsStudent()
+            ->with(['milestones', 'supervisions.evidenceDocument', 'reviews', 'documents', 'supervisor'])
+            ->latest()
+            ->first();
+
+        $supervisorProjects = $user?->taProjectsAsSupervisor()
+            ->with(['student', 'milestones', 'supervisions.evidenceDocument', 'documents'])
+            ->latest()
+            ->get() ?? collect();
 
         return view('dashboard', [
             'user' => $user,

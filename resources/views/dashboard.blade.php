@@ -106,7 +106,7 @@
                         @if ($user->hasRole('mahasiswa'))
                             <div class="subsection">
                                 <h3>Kirim Log Bimbingan</h3>
-                                <form method="POST" action="{{ route('ta-supervisions.store', $studentProject) }}" class="ta-inline-form">
+                                <form method="POST" action="{{ route('ta-supervisions.store', $studentProject) }}" class="ta-inline-form" enctype="multipart/form-data">
                                     @csrf
                                     <label class="ta-field">
                                         <span>Tanggal Bimbingan</span>
@@ -116,8 +116,33 @@
                                         <span>Ringkasan Bimbingan</span>
                                         <textarea name="summary" rows="4" required></textarea>
                                     </label>
+                                    <label class="ta-field ta-field-full">
+                                        <span>Bukti Bimbingan (PDF/DOC/JPG/PNG)</span>
+                                        <input type="file" name="evidence_file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+                                    </label>
                                     <button class="app-btn app-btn-primary" type="submit">Kirim Log</button>
                                 </form>
+                            </div>
+                        @endif
+
+                        @php
+                            $topicDocuments = $studentProject->documents->where('document_type', 'topic_proposal');
+                        @endphp
+
+                        @if($topicDocuments->isNotEmpty())
+                            <div class="subsection">
+                                <h3>Lampiran Topik</h3>
+                                <div class="review-list">
+                                    @foreach($topicDocuments as $document)
+                                        <div class="review-item">
+                                            <div>
+                                                <strong>{{ $document->original_name }}</strong>
+                                                <p>{{ number_format($document->size_bytes / 1024, 1) }} KB</p>
+                                            </div>
+                                            <a href="{{ route('ta-documents.download', $document) }}" class="app-btn app-btn-secondary">Unduh</a>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         @endif
 
@@ -129,6 +154,12 @@
                                         <div>
                                             <strong>{{ $supervision->meeting_date->format('d M Y') }}</strong>
                                             <p>{{ $supervision->summary }}</p>
+                                            @if ($supervision->evidenceDocument)
+                                                <p>
+                                                    Lampiran: 
+                                                    <a href="{{ route('ta-documents.download', $supervision->evidenceDocument) }}">{{ $supervision->evidenceDocument->original_name }}</a>
+                                                </p>
+                                            @endif
                                             @if ($supervision->supervisor_note)
                                                 <small>Catatan pembimbing: {{ $supervision->supervisor_note }}</small>
                                             @endif
@@ -207,6 +238,11 @@
                                 <form method="POST" action="{{ route('ta-supervisions.review', $supervision) }}" class="ta-inline-form ta-inline-form-bordered">
                                     @csrf
                                     <div class="compact-text">Log {{ $supervision->meeting_date->format('d M Y') }}: {{ $supervision->summary }}</div>
+                                    @if ($supervision->evidenceDocument)
+                                        <div class="compact-text">
+                                            Lampiran: <a href="{{ route('ta-documents.download', $supervision->evidenceDocument) }}">{{ $supervision->evidenceDocument->original_name }}</a>
+                                        </div>
+                                    @endif
                                     <label class="ta-field">
                                         <span>Status</span>
                                         <select name="status" required>

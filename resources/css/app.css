@@ -290,12 +290,36 @@
         padding-right: 16px;
     }
 
+    .landing-page .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .landing-page header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .landing-page .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .landing-page .step {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 380px) {
     .landing-page .stats {
         grid-template-columns: 1fr;
     }
 
-    .landing-page .btn {
-        width: 100%;
+    .landing-page .shell {
+        margin: 8px auto;
     }
 }
 
@@ -474,6 +498,8 @@
     font-size: 0.78rem;
     font-weight: 700;
     text-transform: capitalize;
+    flex-shrink: 0;
+    align-self: flex-start;
 }
 
 .status-draft,
@@ -573,6 +599,22 @@
     font-weight: 500;
 }
 
+.ta-field__label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    color: #1e293b;
+}
+
+.ta-field__error {
+    display: block;
+    color: #b91c1c;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
 .ta-form-actions {
     display: flex;
     justify-content: flex-end;
@@ -590,18 +632,34 @@
 }
 
 @media (max-width: 960px) {
-    .app-summary-grid,
-    .app-dashboard-grid,
-    .ta-form-grid {
+    .app-summary-grid {
         grid-template-columns: 1fr 1fr;
     }
 
     .app-dashboard-grid {
         grid-template-columns: 1fr;
     }
+
+    .app-shell {
+        margin: 16px auto;
+    }
+
+    .app-panel {
+        padding: 18px;
+    }
 }
 
 @media (max-width: 680px) {
+    .app-shell {
+        margin: 10px auto;
+        width: 96vw;
+    }
+
+    .app-panel {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
     .app-summary-grid,
     .ta-form-grid {
         grid-template-columns: 1fr;
@@ -613,20 +671,68 @@
     .milestone-item,
     .review-item {
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .app-top-actions,
-    .project-actions,
+    .project-actions {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+
     .ta-form-actions {
         width: 100%;
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: stretch;
+    }
+
+    .app-top-actions .app-btn,
+    .app-top-actions button,
+    .project-actions .app-btn,
+    .project-actions button {
+        flex: 1 1 auto;
+        min-width: 120px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .ta-form-actions .app-btn,
+    .ta-form-actions button {
+        width: 100%;
+        justify-content: center;
     }
 }
 
 /* ═══════════════════════════════════════════════════════════════
    SPRINT 3 — ADMIN STYLES
    ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    .app-panel {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .app-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-pre {
+        font-size: 0.75rem;
+        max-height: 180px;
+    }
+
+    .project-card,
+    .review-item {
+        padding: 12px;
+    }
+
+    .app-panel h1 { font-size: 1.3rem; }
+    .app-panel h2 { font-size: 1.1rem; }
+}
+
 
 /* Admin top bar */
 .admin-topbar {
@@ -968,13 +1074,92 @@
 }
 
 @media (max-width: 768px) {
-    .admin-kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .admin-two-col  { grid-template-columns: 1fr; }
-    .admin-filter-form .ta-field { min-width: 100%; }
+    .admin-kpi-grid        { grid-template-columns: repeat(2, 1fr); }
+    .admin-two-col         { grid-template-columns: 1fr; }
+    .admin-main            { padding: 1rem 0.75rem 2rem; }
+
+    /* Filter and search forms stack vertically */
+    .admin-filter-form,
+    .admin-search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-filter-form .ta-field,
+    .admin-search-form .ta-field { min-width: 100%; }
+    .admin-search-input { min-width: 100%; width: 100%; }
+
+    /* Tables scroll horizontally rather than overflow */
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .admin-table td { white-space: normal; min-width: 90px; }
+    .admin-table th { white-space: nowrap; }
+
+    /* Action cell stacks buttons */
+    .admin-action-cell {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+
+    /* Nav can scroll horizontally on medium screens */
+    .admin-nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+        flex-wrap: nowrap;
+    }
+
+    /* Buttons in admin forms stay reasonable */
+    .admin-main .app-btn,
+    .admin-main .app-btn--primary,
+    .admin-main .app-btn--ghost,
+    .admin-main .app-btn--danger {
+        min-width: 72px;
+    }
 }
 
 @media (max-width: 480px) {
-    .admin-kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .admin-topbar   { gap: 0.75rem; padding: 0.5rem 0.75rem; }
+    .admin-kpi-grid  { grid-template-columns: repeat(2, 1fr); }
+    .admin-kpi-value { font-size: 1.5rem; }
+
+    .admin-topbar {
+        gap: 0.4rem;
+        padding: 0.5rem 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-nav {
+        width: 100%;
+        gap: 0.15rem;
+    }
+
+    .admin-nav-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.78rem;
+    }
+
+    .admin-modal-box {
+        margin: 0.5rem;
+        max-height: 90vh;
+    }
+
+    .admin-log-item {
+        flex-wrap: wrap;
+    }
+
+    .admin-log-time {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .admin-kpi-grid { grid-template-columns: 1fr; }
 }
 

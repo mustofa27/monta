@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('ta-projects.update', $project) }}" class="ta-form">
+            <form method="POST" action="{{ route('ta-projects.update', $project) }}" class="ta-form" enctype="multipart/form-data">
                 @include('ta-projects._form', [
                     'project' => $project,
                     'method' => 'PUT',

@@ -16,6 +16,7 @@ class TaSupervision extends Model
         'supervisor_user_id',
         'meeting_date',
         'summary',
+        'ta_document_id',
         'status',
         'supervisor_note',
     ];
@@ -40,5 +41,10 @@ class TaSupervision extends Model
     public function supervisor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'supervisor_user_id');
+    }
+
+    public function evidenceDocument(): BelongsTo
+    {
+        return $this->belongsTo(TaDocument::class, 'ta_document_id');
     }
 }

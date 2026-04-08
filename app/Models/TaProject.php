@@ -53,4 +53,9 @@ class TaProject extends Model
     {
         return $this->hasMany(TaReview::class, 'ta_project_id')->latest();
     }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(TaDocument::class, 'ta_project_id')->latest();
+    }
 }

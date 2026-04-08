@@ -54,6 +54,8 @@ Route::middleware(['auth', 'role:mahasiswa,dosen_pembimbing,koordinator_ta,admin
     Route::post('/ta-supervisions/{supervision}/review', [TaSupervisionController::class, 'review'])
         ->middleware('role:dosen_pembimbing,koordinator_ta,admin_prodi')
         ->name('ta-supervisions.review');
+    Route::get('/ta-documents/{document}/download', [TaProjectController::class, 'downloadDocument'])
+        ->name('ta-documents.download');
 });
 
 // ── Admin routes ──────────────────────────────────────────────────────────────

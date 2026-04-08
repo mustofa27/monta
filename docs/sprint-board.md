@@ -103,7 +103,7 @@ Goal: Deliver end-to-end TA progress workflow for students and supervisors.
 Target: 30 SP
 
 ### S2-01 Topic Submission Module
-- Status: In Progress
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 8 SP
@@ -115,7 +115,7 @@ Target: 30 SP
 - Dependencies: S1-03
 
 ### S2-02 Topic Review and Decision Flow
-- Status: In Progress
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 8 SP
@@ -127,7 +127,7 @@ Target: 30 SP
 - Dependencies: S2-01, S1-05
 
 ### S2-03 Supervision Log Module
-- Status: In Progress
+- Status: Done
 - Type: Story
 - Priority: P0
 - Estimate: 5 SP
@@ -282,7 +282,7 @@ Target: 29 SP
 - Dependencies: S2-03, S2-04
 
 ### S4-05 Queue + Scheduler Integration
-- Status: Not Started
+- Status: In Progress
 - Type: Task
 - Priority: P1
 - Estimate: 3 SP

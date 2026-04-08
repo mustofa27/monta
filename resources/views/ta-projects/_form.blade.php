@@ -21,6 +21,13 @@
         <textarea name="abstract" rows="8">{{ old('abstract', $project->abstract) }}</textarea>
         @error('abstract')<small>{{ $message }}</small>@enderror
     </label>
+
+    <label class="ta-field ta-field-full">
+        <span>Lampiran Topik (opsional, bisa lebih dari satu)</span>
+        <input type="file" name="topic_attachments[]" accept=".pdf,.doc,.docx,.txt,.zip" multiple>
+        @error('topic_attachments')<small>{{ $message }}</small>@enderror
+        @error('topic_attachments.*')<small>{{ $message }}</small>@enderror
+    </label>
 </div>
 
 <div class="ta-form-actions">
