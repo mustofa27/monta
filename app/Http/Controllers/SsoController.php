@@ -360,6 +360,17 @@ class SsoController extends Controller
                 foreach ($value as $nestedRole) {
                     if (is_string($nestedRole) && trim($nestedRole) !== '') {
                         $rawRoles[] = $nestedRole;
+                        continue;
+                    }
+
+                    if (is_array($nestedRole)) {
+                        foreach (['name', 'slug'] as $roleField) {
+                            $roleValue = data_get($nestedRole, $roleField);
+
+                            if (is_string($roleValue) && trim($roleValue) !== '') {
+                                $rawRoles[] = $roleValue;
+                            }
+                        }
                     }
                 }
             }

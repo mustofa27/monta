@@ -88,6 +88,17 @@ class User extends Authenticatable
                 foreach ($value as $nestedRole) {
                     if (is_string($nestedRole) && trim($nestedRole) !== '') {
                         $rawRoles[] = Str::of($nestedRole)->lower()->squish()->toString();
+                        continue;
+                    }
+
+                    if (is_array($nestedRole)) {
+                        foreach (['name', 'slug'] as $roleField) {
+                            $roleValue = data_get($nestedRole, $roleField);
+
+                            if (is_string($roleValue) && trim($roleValue) !== '') {
+                                $rawRoles[] = Str::of($roleValue)->lower()->squish()->toString();
+                            }
+                        }
                     }
                 }
             }
@@ -103,6 +114,12 @@ class User extends Authenticatable
 
         foreach (array_unique($rawRoles) as $rawRole) {
             if (! isset($roleMapping[$rawRole]) || ! is_array($roleMapping[$rawRole])) {
+                $directSlug = Str::of($rawRole)->snake()->toString();
+
+                if (Role::query()->where('slug', $directSlug)->exists()) {
+                    $resolved[] = $directSlug;
+                }
+
                 continue;
             }
 

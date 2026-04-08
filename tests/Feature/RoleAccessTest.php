@@ -63,7 +63,12 @@ class RoleAccessTest extends TestCase
         $user = User::factory()->create([
             'sso_user_type' => 'Super Admin',
             'sso_profile' => [
-                'roles' => ['Super Admin'],
+                'roles' => [
+                    [
+                        'name' => 'Super Admin',
+                        'slug' => 'super-admin',
+                    ],
+                ],
             ],
         ]);
 

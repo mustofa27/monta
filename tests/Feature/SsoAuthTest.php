@@ -175,7 +175,12 @@ class SsoAuthTest extends TestCase
                 'email' => 'superadmin@example.com',
                 'user_type' => 'employee',
                 'employee_type' => 'staff',
-                'roles' => ['Super Admin'],
+                'roles' => [
+                    [
+                        'name' => 'Super Admin',
+                        'slug' => 'super-admin',
+                    ],
+                ],
             ], 200),
         ]);
 
