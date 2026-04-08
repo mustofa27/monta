@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TaProject extends Model
 {
@@ -25,5 +27,30 @@ class TaProject extends Model
         return [
             'submitted_at' => 'datetime',
         ];
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'student_user_id');
+    }
+
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'supervisor_user_id');
+    }
+
+    public function milestones(): HasMany
+    {
+        return $this->hasMany(TaMilestone::class, 'ta_project_id')->orderBy('id');
+    }
+
+    public function supervisions(): HasMany
+    {
+        return $this->hasMany(TaSupervision::class, 'ta_project_id')->latest('meeting_date');
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(TaReview::class, 'ta_project_id')->latest();
     }
 }

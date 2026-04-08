@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\TaProgressService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -283,9 +284,19 @@ class SsoController extends Controller
 
     public function dashboard(Request $request): View
     {
+        $user = $request->user();
+        $progressService = app(TaProgressService::class);
+
+        $studentProject = $user?->taProjectsAsStudent()->with(['milestones', 'supervisions', 'reviews', 'supervisor'])->latest()->first();
+        $supervisorProjects = $user?->taProjectsAsSupervisor()->with(['student', 'milestones', 'supervisions'])->latest()->get() ?? collect();
+
         return view('dashboard', [
-            'user' => $request->user(),
+            'user' => $user,
             'ssoTokens' => $request->session()->get('sso.tokens', []),
+            'studentProject' => $studentProject,
+            'studentProgress' => $studentProject ? $progressService->calculate($studentProject) : 0,
+            'supervisorProjects' => $supervisorProjects,
+            'progressService' => $progressService,
         ]);
     }
 
